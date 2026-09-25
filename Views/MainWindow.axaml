@@ -1,0 +1,738 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:MySqlManagementStudio.ViewModels"
+        xmlns:models="using:MySqlManagementStudio.Models"
+        xmlns:controls="using:MySqlManagementStudio.Controls"
+        x:Class="MySqlManagementStudio.Views.MainWindow"
+        x:DataType="vm:MainViewModel"
+        Icon="/Assets/mysql-management-studio.ico"
+        Title="MySQL Management Studio"
+        Width="900"
+        Height="620"
+        MinWidth="780"
+        MinHeight="560"
+        WindowState="Normal"
+        WindowStartupLocation="CenterScreen">
+
+    <Design.DataContext>
+        <vm:MainViewModel />
+    </Design.DataContext>
+
+    <Window.Styles>
+        <Style Selector="Button.homeAction">
+            <Setter Property="MinWidth" Value="150" />
+            <Setter Property="MinHeight" Value="40" />
+            <Setter Property="Padding" Value="16,10" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Background" Value="#FFFFFF" />
+            <Setter Property="BorderBrush" Value="#6B6B6B" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="5" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{TemplateBinding CornerRadius}"
+                            Padding="{TemplateBinding Padding}"
+                            BoxShadow="0 2 6 0 #40000000">
+                        <ContentPresenter Content="{TemplateBinding Content}"
+                                          HorizontalContentAlignment="Center"
+                                          VerticalContentAlignment="Center" />
+                    </Border>
+                </ControlTemplate>
+            </Setter>
+        </Style>
+        <Style Selector="Button.homeAction:pointerover /template/ Border">
+            <Setter Property="Background" Value="#F3F8FD" />
+            <Setter Property="BorderBrush" Value="#0078D4" />
+        </Style>
+        <Style Selector="Button.homeAction.primary">
+            <Setter Property="Background" Value="#0078D4" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="BorderBrush" Value="#005A9E" />
+        </Style>
+        <Style Selector="Button.homeAction.primary:pointerover /template/ Border">
+            <Setter Property="Background" Value="#1684D8" />
+            <Setter Property="BorderBrush" Value="#005A9E" />
+        </Style>
+        <Style Selector="Border.connectionCard">
+            <Setter Property="Background" Value="#FFFFFF" />
+            <Setter Property="BorderBrush" Value="#D7EEF4" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="12" />
+            <Setter Property="Width" Value="150" />
+            <Setter Property="Height" Value="88" />
+            <Setter Property="Padding" Value="12" />
+            <Setter Property="Margin" Value="6" />
+            <Setter Property="BoxShadow" Value="0 6 18 0 #28000000" />
+            <Setter Property="Cursor" Value="Hand" />
+        </Style>
+        <Style Selector="ProgressBar.execSpinner">
+            <Setter Property="Foreground" Value="#0078D4" />
+            <Setter Property="Background" Value="#D0E6F7" />
+            <Setter Property="MinHeight" Value="6" />
+        </Style>
+        <Style Selector="ListBox.connectionList">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+        </Style>
+        <Style Selector="ListBox.connectionList ListBoxItem">
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Margin" Value="0" />
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="Background" Value="Transparent" />
+        </Style>
+        <Style Selector="ListBox.connectionList ListBoxItem:selected Border.connectionCard">
+            <Setter Property="BorderBrush" Value="#0B6E99" />
+            <Setter Property="Background" Value="#FFFFFFFF" />
+            <Setter Property="BoxShadow" Value="0 10 28 0 #400B6E99" />
+        </Style>
+        <Style Selector="ListBox.connectionList ListBoxItem:pointerover Border.connectionCard">
+            <Setter Property="BorderBrush" Value="#0B6E99" />
+            <Setter Property="RenderTransform" Value="scale(1.03)" />
+        </Style>
+        <Style Selector="Button.homeGhost">
+            <Setter Property="Background" Value="#2A8FA8" />
+            <Setter Property="Foreground" Value="#FFFFFF" />
+            <Setter Property="BorderBrush" Value="#7FD4E6" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="Padding" Value="16,10" />
+            <Setter Property="MinWidth" Value="96" />
+            <Setter Property="MinHeight" Value="40" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{TemplateBinding CornerRadius}"
+                            Padding="{TemplateBinding Padding}">
+                        <ContentPresenter Content="{TemplateBinding Content}"
+                                          Foreground="{TemplateBinding Foreground}"
+                                          HorizontalContentAlignment="Center"
+                                          VerticalContentAlignment="Center" />
+                    </Border>
+                </ControlTemplate>
+            </Setter>
+        </Style>
+        <Style Selector="Button.homeGhost:pointerover /template/ Border">
+            <Setter Property="Background" Value="#3AA3BD" />
+            <Setter Property="BorderBrush" Value="#A8E8F4" />
+        </Style>
+        <Style Selector="Button.homeGhost:pressed /template/ Border">
+            <Setter Property="Background" Value="#1F7A91" />
+        </Style>
+        <Style Selector="Button.homeSolid">
+            <Setter Property="Background" Value="#FFFFFF" />
+            <Setter Property="Foreground" Value="#0B3D4F" />
+            <Setter Property="BorderBrush" Value="#FFFFFF" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="Padding" Value="18,10" />
+            <Setter Property="MinWidth" Value="150" />
+            <Setter Property="MinHeight" Value="42" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{TemplateBinding CornerRadius}"
+                            Padding="{TemplateBinding Padding}"
+                            BoxShadow="0 4 14 0 #30000000">
+                        <ContentPresenter Content="{TemplateBinding Content}"
+                                          Foreground="{TemplateBinding Foreground}"
+                                          HorizontalContentAlignment="Center"
+                                          VerticalContentAlignment="Center" />
+                    </Border>
+                </ControlTemplate>
+            </Setter>
+        </Style>
+        <Style Selector="Button.homeSolid:pointerover /template/ Border">
+            <Setter Property="Background" Value="#F2FBFF" />
+            <Setter Property="BorderBrush" Value="#D7F0F6" />
+        </Style>
+        <Style Selector="Button.homeSolid:pressed /template/ Border">
+            <Setter Property="Background" Value="#E4F4F8" />
+        </Style>
+    </Window.Styles>
+
+    <Window.KeyBindings>
+        <!-- Windows / Linux -->
+        <KeyBinding Gesture="F5" Command="{Binding ExecuteQueryCommand}" />
+        <KeyBinding Gesture="Ctrl+Enter" Command="{Binding ExecuteQueryCommand}" />
+        <KeyBinding Gesture="Ctrl+N" Command="{Binding NewQueryCommand}" />
+        <KeyBinding Gesture="Ctrl+O" Command="{Binding NewConnectionCommand}" />
+        <KeyBinding Gesture="Ctrl+W" Command="{Binding CloseCurrentQueryCommand}" />
+        <KeyBinding Gesture="Ctrl+E" Command="{Binding ExportCsvCommand}" />
+        <KeyBinding Gesture="Ctrl+R" Command="{Binding RefreshNodeCommand}" />
+        <KeyBinding Gesture="Ctrl+Shift+H" Command="{Binding GoHomeCommand}" />
+
+        <!-- macOS (⌘ = Cmd / Meta) -->
+        <KeyBinding Gesture="Cmd+Enter" Command="{Binding ExecuteQueryCommand}" />
+        <KeyBinding Gesture="Cmd+N" Command="{Binding NewQueryCommand}" />
+        <KeyBinding Gesture="Cmd+O" Command="{Binding NewConnectionCommand}" />
+        <KeyBinding Gesture="Cmd+W" Command="{Binding CloseCurrentQueryCommand}" />
+        <KeyBinding Gesture="Cmd+E" Command="{Binding ExportCsvCommand}" />
+        <KeyBinding Gesture="Cmd+R" Command="{Binding RefreshNodeCommand}" />
+        <KeyBinding Gesture="Cmd+Shift+H" Command="{Binding GoHomeCommand}" />
+    </Window.KeyBindings>
+
+    <DockPanel>
+        <Menu DockPanel.Dock="Top" Name="MainMenu">
+            <MenuItem Header="_File">
+                <MenuItem Header="_Home" Name="MenuHome" Command="{Binding GoHomeCommand}" />
+                <MenuItem Header="_New Connection..." Name="MenuNewConnection" Command="{Binding NewConnectionCommand}" InputGesture="Ctrl+O" />
+                <MenuItem Header="_New Query" Name="MenuNewQuery" Command="{Binding NewQueryCommand}" InputGesture="Ctrl+N" />
+                <MenuItem Header="_Close Query" Name="MenuCloseQuery" Command="{Binding CloseCurrentQueryCommand}" InputGesture="Ctrl+W" />
+                <Separator />
+                <MenuItem Header="_Disconnect" Command="{Binding DisconnectCommand}" />
+                <Separator />
+                <MenuItem Header="E_xit" Name="MenuExit" Click="OnExitClick" />
+            </MenuItem>
+            <MenuItem Header="_Query">
+                <MenuItem Header="_Execute" Name="MenuExecute" Command="{Binding ExecuteQueryCommand}" InputGesture="F5" />
+                <MenuItem Header="_Cancel Executing Query" Command="{Binding CancelQueryCommand}" />
+                <MenuItem Header="_Close Query Window" Name="MenuCloseQueryWindow" Command="{Binding CloseCurrentQueryCommand}" InputGesture="Ctrl+W" />
+                <Separator />
+                <MenuItem Header="Export Results to CS_V..." Name="MenuExportCsv" Command="{Binding ExportCsvCommand}" InputGesture="Ctrl+E" />
+            </MenuItem>
+            <MenuItem Header="_View">
+                <MenuItem Header="_Home" Name="MenuViewHome" Command="{Binding GoHomeCommand}" InputGesture="Ctrl+Shift+H" />
+                <MenuItem Header="_Refresh Object Explorer" Name="MenuRefresh" Command="{Binding RefreshNodeCommand}" InputGesture="Ctrl+R" />
+            </MenuItem>
+            <MenuItem Header="_Help">
+                <MenuItem Header="_Keyboard Shortcuts" Click="OnKeyboardShortcutsClick" />
+                <MenuItem Header="About MySQL Management Studio" Click="OnAboutClick" />
+            </MenuItem>
+        </Menu>
+
+        <!-- Workspace toolbar only (home is a full immersive page) -->
+        <Border DockPanel.Dock="Top"
+                BorderBrush="#D0D0D0"
+                BorderThickness="0,0,0,1"
+                Background="#F3F3F3"
+                Padding="8,6"
+                IsVisible="{Binding IsWorkspacePage}">
+            <StackPanel Orientation="Horizontal" Spacing="6">
+                <Button Content="Home" Command="{Binding GoHomeCommand}" Padding="10,4" />
+                <Button Content="New Query" Command="{Binding NewQueryCommand}" Padding="10,4" />
+                <Button Content="Close Query" Command="{Binding CloseCurrentQueryCommand}" Padding="10,4" />
+                <Separator Width="1" Height="22" Background="#C8C8C8" Margin="4,0" />
+                <Button Content="Execute (F5)" Command="{Binding ExecuteQueryCommand}" Padding="10,4" FontWeight="SemiBold" />
+                <Button Content="Cancel" Command="{Binding CancelQueryCommand}" Padding="10,4" />
+                <Separator Width="1" Height="22" Background="#C8C8C8" Margin="4,0" />
+                <Button Content="Select Top 1000"
+                        Command="{Binding SelectTop1000Command}"
+                        IsVisible="{Binding ShowSelectTop1000Menu}"
+                        Padding="10,4" />
+                <Button Content="Script as CREATE"
+                        Command="{Binding ScriptCreateCommand}"
+                        IsVisible="{Binding ShowScriptCreateMenu}"
+                        Padding="10,4" />
+                <Button Content="Alter View"
+                        Command="{Binding AlterViewCommand}"
+                        IsVisible="{Binding ShowAlterViewMenu}"
+                        Padding="10,4" />
+                <Button Content="Alter Procedure"
+                        Command="{Binding AlterProcedureCommand}"
+                        IsVisible="{Binding ShowAlterProcedureMenu}"
+                        Padding="10,4" />
+                <Button Content="Alter Function"
+                        Command="{Binding AlterFunctionCommand}"
+                        IsVisible="{Binding ShowAlterFunctionMenu}"
+                        Padding="10,4" />
+                <Button Content="Export CSV" Command="{Binding ExportCsvCommand}" Padding="10,4" />
+                <Button Content="Refresh" Command="{Binding RefreshNodeCommand}" Padding="10,4" />
+                <Button Content="Disconnect" Command="{Binding DisconnectCommand}" Padding="10,4" />
+            </StackPanel>
+        </Border>
+
+        <Border DockPanel.Dock="Bottom"
+                Background="#0078D4"
+                Padding="10,4"
+                IsVisible="{Binding IsWorkspacePage}">
+            <Grid ColumnDefinitions="*,Auto">
+                <TextBlock Grid.Column="0"
+                           Text="{Binding StatusText}"
+                           Foreground="White"
+                           TextTrimming="CharacterEllipsis" />
+                <TextBlock Grid.Column="1"
+                           Text="{Binding ConnectionStatus}"
+                           Foreground="White"
+                           Margin="16,0,0,0" />
+            </Grid>
+        </Border>
+
+        <!-- Last DockPanel child fills the window; host both pages here so home stretches full-bleed. -->
+        <Panel>
+        <!-- HOME PAGE: compact welcome — no scrolling -->
+        <Grid IsVisible="{Binding IsHomePage}"
+              HorizontalAlignment="Stretch"
+              VerticalAlignment="Stretch">
+            <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                        <GradientStop Color="#062A36" Offset="0" />
+                        <GradientStop Color="#0B4F63" Offset="0.45" />
+                        <GradientStop Color="#117A8C" Offset="1" />
+                    </LinearGradientBrush>
+                </Border.Background>
+            </Border>
+            <Ellipse Width="420" Height="420" HorizontalAlignment="Left" VerticalAlignment="Top"
+                     Margin="-140,-160,0,0" Opacity="0.18" IsHitTestVisible="False">
+                <Ellipse.Fill>
+                    <RadialGradientBrush>
+                        <GradientStop Color="#7FDBFF" Offset="0" />
+                        <GradientStop Color="Transparent" Offset="1" />
+                    </RadialGradientBrush>
+                </Ellipse.Fill>
+            </Ellipse>
+            <Ellipse Width="480" Height="480" HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                     Margin="0,0,-180,-200" Opacity="0.16" IsHitTestVisible="False">
+                <Ellipse.Fill>
+                    <RadialGradientBrush>
+                        <GradientStop Color="#B8F2E6" Offset="0" />
+                        <GradientStop Color="Transparent" Offset="1" />
+                    </RadialGradientBrush>
+                </Ellipse.Fill>
+            </Ellipse>
+
+            <Grid Margin="28,22" RowDefinitions="Auto,Auto,*" RowSpacing="16">
+                <!-- Brand + welcome on one compact row -->
+                <StackPanel Grid.Row="0"
+                            Orientation="Horizontal"
+                            Spacing="20"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center">
+                    <Border Background="#FFFFFFF5"
+                            CornerRadius="14"
+                            Padding="12,10"
+                            BoxShadow="0 8 22 0 #28000000"
+                            VerticalAlignment="Center">
+                        <Image Source="/Assets/mysql-management-studio.png"
+                               Width="168"
+                               Height="112"
+                               Stretch="Uniform" />
+                    </Border>
+                    <StackPanel Spacing="6" VerticalAlignment="Center" MaxWidth="420">
+                        <TextBlock Text="MySQL Management Studio"
+                                   FontSize="28"
+                                   FontWeight="Bold"
+                                   Foreground="#FFFFFF"
+                                   FontFamily="Georgia, Palatino, Times New Roman, serif" />
+                        <TextBlock Text="Welcome back. Choose a connection to get started."
+                                   FontSize="15"
+                                   Foreground="#D9F4F8"
+                                   TextWrapping="Wrap"
+                                   Opacity="0.95" />
+                        <TextBlock Text="Double-click a card to open · Edit for connection details"
+                                   FontSize="12"
+                                   Foreground="#B7E4EC"
+                                   Opacity="0.85" />
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Grid.Row="1"
+                            Orientation="Horizontal"
+                            Spacing="10"
+                            HorizontalAlignment="Center">
+                    <Button Classes="homeSolid"
+                            Content="+ New Connection"
+                            Command="{Binding NewConnectionCommand}" />
+                    <Button Classes="homeGhost"
+                            Content="Open"
+                            Command="{Binding OpenSelectedHomeConnectionCommand}" />
+                    <Button Classes="homeGhost"
+                            Content="Edit"
+                            Command="{Binding EditConnectionCommand}"
+                            CommandParameter="{Binding SelectedHomeConnection}" />
+                    <Button Classes="homeGhost"
+                            Content="Delete"
+                            Command="{Binding DeleteConnectionCommand}"
+                            CommandParameter="{Binding SelectedHomeConnection}" />
+                </StackPanel>
+
+                <Border Grid.Row="2"
+                        Background="#0A000000"
+                        CornerRadius="16"
+                        Padding="18"
+                        BorderBrush="#33FFFFFF"
+                        BorderThickness="1">
+                    <DockPanel>
+                        <TextBlock DockPanel.Dock="Top"
+                                   Text="Saved Connections"
+                                   FontSize="14"
+                                   FontWeight="SemiBold"
+                                   Foreground="#E7F7FA"
+                                   Margin="2,0,0,10"
+                                   Opacity="0.9" />
+
+                        <Panel>
+                            <StackPanel IsVisible="{Binding ShowEmptyConnections}"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Spacing="8">
+                                <TextBlock Text="No connections yet"
+                                           FontSize="18"
+                                           FontWeight="SemiBold"
+                                           Foreground="#FFFFFF"
+                                           HorizontalAlignment="Center" />
+                                <TextBlock Text="Create your first MySQL connection to begin."
+                                           FontSize="13"
+                                           Foreground="#C9EBEF"
+                                           HorizontalAlignment="Center"
+                                           TextWrapping="Wrap"
+                                           MaxWidth="360"
+                                           TextAlignment="Center" />
+                                <Button Classes="homeSolid"
+                                        Content="+ Create Connection"
+                                        HorizontalAlignment="Center"
+                                        Margin="0,4,0,0"
+                                        Command="{Binding NewConnectionCommand}" />
+                            </StackPanel>
+
+                            <ListBox Name="HomeConnectionsList"
+                                     Classes="connectionList"
+                                     ItemsSource="{Binding SavedConnections}"
+                                     SelectedItem="{Binding SelectedHomeConnection}"
+                                     IsVisible="{Binding HasSavedConnections}"
+                                     DoubleTapped="OnHomeConnectionDoubleTapped"
+                                     HorizontalAlignment="Center"
+                                     VerticalAlignment="Center"
+                                     ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                                     ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                                <ListBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel Orientation="Horizontal"
+                                                   HorizontalAlignment="Center" />
+                                    </ItemsPanelTemplate>
+                                </ListBox.ItemsPanel>
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate x:DataType="models:ConnectionProfile">
+                                        <Border Classes="connectionCard">
+                                            <StackPanel VerticalAlignment="Center"
+                                                        HorizontalAlignment="Center"
+                                                        Spacing="6">
+                                                <Image Source="/Assets/mysql-management-studio-square.png"
+                                                       Width="32"
+                                                       Height="32"
+                                                       HorizontalAlignment="Center" />
+                                                <TextBlock Text="{Binding DisplayName}"
+                                                           FontSize="13"
+                                                           FontWeight="SemiBold"
+                                                           Foreground="#123843"
+                                                           TextAlignment="Center"
+                                                           TextWrapping="Wrap"
+                                                           MaxWidth="120"
+                                                           HorizontalAlignment="Center" />
+                                            </StackPanel>
+                                        </Border>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </Panel>
+                    </DockPanel>
+                </Border>
+            </Grid>
+        </Grid>
+
+        <!-- WORKSPACE -->
+        <Grid ColumnDefinitions="280,5,*"
+              IsVisible="{Binding IsWorkspacePage}"
+              HorizontalAlignment="Stretch"
+              VerticalAlignment="Stretch">
+            <DockPanel Grid.Column="0" Background="#F5F7FA">
+                <Border DockPanel.Dock="Top"
+                        Background="#E8ECF1"
+                        Padding="10,8"
+                        BorderBrush="#D0D0D0"
+                        BorderThickness="0,0,0,1">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <Image Source="/Assets/mysql-management-studio-square.png"
+                               Width="20"
+                               Height="20"
+                               VerticalAlignment="Center" />
+                        <TextBlock Text="Object Explorer"
+                                   FontWeight="SemiBold"
+                                   FontSize="13"
+                                   VerticalAlignment="Center" />
+                    </StackPanel>
+                </Border>
+
+                <TreeView Name="ObjectExplorer"
+                          ItemsSource="{Binding ExplorerRoots}"
+                          SelectedItem="{Binding SelectedNode, Mode=TwoWay}"
+                          AutoScrollToSelectedItem="False">
+                    <TreeView.ItemTemplate>
+                        <TreeDataTemplate ItemsSource="{Binding Children}" DataType="vm:ExplorerNodeViewModel">
+                            <StackPanel Orientation="Horizontal" Spacing="6">
+                                <TextBlock Text="{Binding IconGlyph}" VerticalAlignment="Center" />
+                                <TextBlock Text="{Binding Title}" VerticalAlignment="Center" />
+                                <TextBlock Text="{Binding Extra}"
+                                           Opacity="0.55"
+                                           FontSize="11"
+                                           VerticalAlignment="Center"
+                                           IsVisible="{Binding Extra, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
+                            </StackPanel>
+                        </TreeDataTemplate>
+                    </TreeView.ItemTemplate>
+                    <TreeView.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="New Query"
+                                      Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).NewQueryCommand}" />
+                            <MenuItem Header="Select Top 1000 Rows"
+                                      Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).SelectTop1000Command}"
+                                      IsVisible="{Binding $parent[Window].((vm:MainViewModel)DataContext).ShowSelectTop1000Menu}" />
+                            <MenuItem Header="Alter View..."
+                                      Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).AlterViewCommand}"
+                                      IsVisible="{Binding $parent[Window].((vm:MainViewModel)DataContext).ShowAlterViewMenu}" />
+                            <MenuItem Header="Alter Stored Procedure..."
+                                      Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).AlterProcedureCommand}"
+                                      IsVisible="{Binding $parent[Window].((vm:MainViewModel)DataContext).ShowAlterProcedureMenu}" />
+                            <MenuItem Header="Alter Function..."
+                                      Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).AlterFunctionCommand}"
+                                      IsVisible="{Binding $parent[Window].((vm:MainViewModel)DataContext).ShowAlterFunctionMenu}" />
+                            <MenuItem Header="Script as CREATE"
+                                      Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).ScriptCreateCommand}"
+                                      IsVisible="{Binding $parent[Window].((vm:MainViewModel)DataContext).ShowScriptCreateMenu}" />
+                            <Separator />
+                            <MenuItem Header="Close Current Query"
+                                      Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).CloseCurrentQueryCommand}" />
+                            <MenuItem Header="Refresh"
+                                      Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).RefreshNodeCommand}" />
+                            <MenuItem Header="Disconnect"
+                                      Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).DisconnectCommand}" />
+                            <MenuItem Header="Home"
+                                      Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).GoHomeCommand}" />
+                        </ContextMenu>
+                    </TreeView.ContextMenu>
+                </TreeView>
+            </DockPanel>
+
+            <GridSplitter Grid.Column="1"
+                          Width="5"
+                          Background="#C5CCD6"
+                          ResizeDirection="Columns" />
+
+            <Grid Name="WorkspaceRightGrid" Grid.Column="2" RowDefinitions="2*,6,*" Margin="8">
+                <!-- Query pane -->
+                <Border Grid.Row="0"
+                        MinHeight="120"
+                        Background="#FFFFFF"
+                        BorderBrush="#0078D4"
+                        BorderThickness="1"
+                        CornerRadius="6"
+                        BoxShadow="0 2 10 0 #22000000"
+                        Padding="0"
+                        ClipToBounds="True">
+                    <DockPanel>
+                        <Border DockPanel.Dock="Top"
+                                Background="#EEF5FC"
+                                Padding="12,8"
+                                BorderBrush="#C9D9EA"
+                                BorderThickness="0,0,0,1">
+                            <Grid ColumnDefinitions="Auto,*,Auto,Auto">
+                                <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                                    <TextBlock Text="SQL Query"
+                                               FontWeight="Bold"
+                                               Foreground="#0B5CAB"
+                                               VerticalAlignment="Center" />
+                                    <TextBlock Name="QueryShortcutHint"
+                                               Text="F5 run · Ctrl+Space IntelliSense · syntax highlighting on"
+                                               Opacity="0.85"
+                                               FontSize="14"
+                                               FontWeight="SemiBold"
+                                               VerticalAlignment="Center" />
+                                </StackPanel>
+                                <ComboBox Grid.Column="2"
+                                          ItemsSource="{Binding AvailableDatabases}"
+                                          SelectedItem="{Binding SelectedTab.Database}"
+                                          IsEnabled="{Binding SelectedTab, Converter={x:Static ObjectConverters.IsNotNull}}"
+                                          MinWidth="160"
+                                          Margin="12,0"
+                                          PlaceholderText="Database" />
+                                <TextBlock Grid.Column="3"
+                                           Text="{Binding SelectedTab.Profile.DisplayName}"
+                                           VerticalAlignment="Center"
+                                           FontWeight="SemiBold"
+                                           Opacity="0.8"
+                                           TextTrimming="CharacterEllipsis"
+                                           MaxWidth="200" />
+                            </Grid>
+                        </Border>
+
+                        <TabControl ItemsSource="{Binding Tabs}"
+                                    SelectedItem="{Binding SelectedTab}"
+                                    Padding="8">
+                            <TabControl.ItemTemplate>
+                                <DataTemplate x:DataType="vm:QueryTabViewModel">
+                                    <StackPanel Orientation="Horizontal" Spacing="6">
+                                        <StackPanel.ContextMenu>
+                                            <ContextMenu>
+                                                <MenuItem Header="Close"
+                                                          Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).CloseTabCommand}"
+                                                          CommandParameter="{Binding}" />
+                                                <MenuItem Header="Close Current Query"
+                                                          Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).CloseCurrentQueryCommand}" />
+                                            </ContextMenu>
+                                        </StackPanel.ContextMenu>
+                                        <TextBlock Text="{Binding Title}"
+                                                   FontSize="11"
+                                                   VerticalAlignment="Center" />
+                                        <Button Content="✕"
+                                                Padding="3,0"
+                                                FontSize="10"
+                                                ToolTip.Tip="Close query"
+                                                Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).CloseTabCommand}"
+                                                CommandParameter="{Binding}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </TabControl.ItemTemplate>
+                            <TabControl.ContentTemplate>
+                                <DataTemplate x:DataType="vm:QueryTabViewModel">
+                                    <controls:SqlQueryEditor Text="{Binding Sql, Mode=TwoWay}" />
+                                </DataTemplate>
+                            </TabControl.ContentTemplate>
+                        </TabControl>
+                    </DockPanel>
+                </Border>
+
+                <!-- Drag to resize query vs results -->
+                <GridSplitter Grid.Row="1"
+                              Name="ResultsSplitter"
+                              Height="6"
+                              HorizontalAlignment="Stretch"
+                              Background="#B0B8C4"
+                              ResizeDirection="Rows"
+                              ShowsPreview="False"
+                              IsVisible="{Binding ShowResultsPane}" />
+
+                <!-- Results pane (hidden when no query tabs are open) -->
+                <Border Grid.Row="2"
+                        Name="ResultsPane"
+                        MinHeight="140"
+                        Background="#FAFBFC"
+                        BorderBrush="#C5CCD6"
+                        BorderThickness="1"
+                        CornerRadius="6"
+                        BoxShadow="0 1 6 0 #14000000"
+                        ClipToBounds="True"
+                        IsVisible="{Binding ShowResultsPane}">
+                    <DockPanel>
+                        <Border DockPanel.Dock="Top"
+                                Background="#F0F2F5"
+                                Padding="12,8"
+                                BorderBrush="#D5DAE0"
+                                BorderThickness="0,0,0,1">
+                            <Grid ColumnDefinitions="Auto,*,Auto,Auto">
+                                <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
+                                    <TextBlock Text="Results"
+                                               FontWeight="Bold"
+                                               Foreground="#333333"
+                                               VerticalAlignment="Center" />
+                                    <TextBlock Text="{Binding SelectedTab.EditabilityHint}"
+                                               Opacity="0.6"
+                                               FontSize="11"
+                                               VerticalAlignment="Center"
+                                               TextTrimming="CharacterEllipsis"
+                                               MaxWidth="420" />
+                                </StackPanel>
+                                <TextBlock Grid.Column="2"
+                                           Text="{Binding SelectedTab.StatusText}"
+                                           Opacity="0.65"
+                                           FontSize="11"
+                                           VerticalAlignment="Center"
+                                           Margin="0,0,12,0" />
+                                <Button Grid.Column="3"
+                                        Content="Export CSV"
+                                        Padding="12,5"
+                                        VerticalAlignment="Center"
+                                        Command="{Binding ExportCsvCommand}" />
+                            </Grid>
+                        </Border>
+
+                        <Panel>
+                            <TabControl SelectedIndex="{Binding SelectedTab.SelectedResultsTabIndex, Mode=TwoWay}"
+                                        Padding="4">
+                                <TabItem Header="Results grid">
+                                    <DataGrid Name="ResultsGrid"
+                                              IsReadOnly="False"
+                                              CanUserResizeColumns="True"
+                                              CanUserSortColumns="True"
+                                              CanUserReorderColumns="True"
+                                              GridLinesVisibility="All"
+                                              BorderThickness="0"
+                                              Background="#FFFFFF"
+                                              FontFamily="Menlo, Consolas, monospace"
+                                              FontSize="12"
+                                              HorizontalScrollBarVisibility="Visible"
+                                              VerticalScrollBarVisibility="Visible"
+                                              CellEditEnded="OnResultsCellEditEnded" />
+                                </TabItem>
+                                <TabItem Header="Messages">
+                                    <TextBox Text="{Binding SelectedTab.Messages}"
+                                             IsReadOnly="True"
+                                             AcceptsReturn="True"
+                                             TextWrapping="Wrap"
+                                             FontFamily="Menlo, Consolas, monospace"
+                                             Background="#FFFFFF"
+                                             BorderThickness="1"
+                                             BorderBrush="#E2E6EB"
+                                             CornerRadius="4"
+                                             Margin="4"
+                                             Padding="10" />
+                                </TabItem>
+                            </TabControl>
+
+                            <!-- Busy overlay while query runs -->
+                            <Border IsVisible="{Binding IsQueryExecuting}"
+                                    Background="#E8FFFFFF"
+                                    ZIndex="10">
+                                <StackPanel HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Spacing="14">
+                                    <ProgressBar Classes="execSpinner"
+                                                 IsIndeterminate="True"
+                                                 Width="220"
+                                                 Height="6" />
+                                    <TextBlock Text="Executing query..."
+                                               FontSize="20"
+                                               FontWeight="SemiBold"
+                                               HorizontalAlignment="Center"
+                                               Foreground="#0B5CAB" />
+                                    <TextBlock Text="{Binding SelectedTab.ExecutionElapsedText}"
+                                               FontSize="42"
+                                               FontWeight="Bold"
+                                               FontFamily="Menlo, Consolas, monospace"
+                                               HorizontalAlignment="Center"
+                                               Foreground="#1A1A1A" />
+                                    <TextBlock Text="The app is working — please wait."
+                                               FontSize="14"
+                                               Opacity="0.7"
+                                               HorizontalAlignment="Center" />
+                                    <Button Content="Cancel query"
+                                            HorizontalAlignment="Center"
+                                            MinWidth="140"
+                                            MinHeight="36"
+                                            Padding="16,8"
+                                            HorizontalContentAlignment="Center"
+                                            Command="{Binding CancelQueryCommand}" />
+                                </StackPanel>
+                            </Border>
+                        </Panel>
+                    </DockPanel>
+                </Border>
+            </Grid>
+        </Grid>
+        </Panel>
+    </DockPanel>
+</Window>
