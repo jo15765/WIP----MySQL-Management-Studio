@@ -1,0 +1,22 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:avaloniaEdit="clr-namespace:AvaloniaEdit;assembly=AvaloniaEdit"
+             x:Class="MySqlManagementStudio.Controls.SqlQueryEditor">
+    <avaloniaEdit:TextEditor Name="Editor"
+                             ShowLineNumbers="True"
+                             FontFamily="Menlo, Consolas, monospace"
+                             FontSize="13.5"
+                             WordWrap="False"
+                             HorizontalScrollBarVisibility="Auto"
+                             VerticalScrollBarVisibility="Auto">
+        <avaloniaEdit:TextEditor.ContextMenu>
+            <ContextMenu>
+                <MenuItem Header="Cut" Click="OnCutClick" InputGesture="Ctrl+X" />
+                <MenuItem Header="Copy" Click="OnCopyClick" InputGesture="Ctrl+C" />
+                <MenuItem Header="Paste" Click="OnPasteClick" InputGesture="Ctrl+V" />
+                <Separator />
+                <MenuItem Header="Select All" Click="OnSelectAllClick" InputGesture="Ctrl+A" />
+            </ContextMenu>
+        </avaloniaEdit:TextEditor.ContextMenu>
+    </avaloniaEdit:TextEditor>
+</UserControl>

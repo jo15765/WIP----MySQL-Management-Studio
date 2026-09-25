@@ -1,0 +1,60 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="MySqlManagementStudio.App"
+             xmlns:local="using:MySqlManagementStudio"
+             Name="MySQL Management Studio"
+             RequestedThemeVariant="Light">
+
+    <Application.DataTemplates>
+        <local:ViewLocator />
+    </Application.DataTemplates>
+
+    <Application.Styles>
+        <!-- Teal accent so buttons never inherit a hard-to-read system yellow. -->
+        <FluentTheme>
+            <FluentTheme.Palettes>
+                <ColorPaletteResources x:Key="Light"
+                                       Accent="#0B6E99"
+                                       RegionColor="#F7FBFB" />
+                <ColorPaletteResources x:Key="Dark"
+                                       Accent="#4DB8C9"
+                                       RegionColor="#10262E" />
+            </FluentTheme.Palettes>
+        </FluentTheme>
+        <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml" />
+        <StyleInclude Source="avares://AvaloniaEdit/Themes/Fluent/AvaloniaEdit.xaml" />
+
+        <Style Selector="Window">
+            <Setter Property="FontFamily" Value="Segoe UI, San Francisco, Helvetica Neue, sans-serif" />
+        </Style>
+
+        <Style Selector="Button">
+            <Setter Property="Foreground" Value="#1A1A1A" />
+        </Style>
+
+        <Style Selector="Menu">
+            <Setter Property="Background" Value="#F3F3F3" />
+        </Style>
+
+        <Style Selector="TreeView">
+            <Setter Property="Background" Value="#F8F8F8" />
+            <Setter Property="Padding" Value="4" />
+        </Style>
+
+        <Style Selector="DataGrid">
+            <Setter Property="RowHeight" Value="26" />
+            <Setter Property="HorizontalScrollBarVisibility" Value="Visible" />
+            <Setter Property="VerticalScrollBarVisibility" Value="Visible" />
+        </Style>
+
+        <!-- Keep result-grid scrollbars always painted (not hover-only). -->
+        <Style Selector="DataGrid /template/ ScrollViewer#PART_ScrollViewer">
+            <Setter Property="HorizontalScrollBarVisibility" Value="Visible" />
+            <Setter Property="VerticalScrollBarVisibility" Value="Visible" />
+        </Style>
+        <Style Selector="DataGrid ScrollBar">
+            <Setter Property="Opacity" Value="1" />
+            <Setter Property="AllowAutoHide" Value="False" />
+        </Style>
+    </Application.Styles>
+</Application>
